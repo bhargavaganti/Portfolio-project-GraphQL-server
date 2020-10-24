@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js --ext js,graphql"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "graphql-yoga": "^1.18.3",
+    "mysql2": "^2.1.0",
+    "nodemon": "^2.0.4"
+  }
+}

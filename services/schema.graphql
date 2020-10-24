@@ -1,0 +1,138 @@
+# Scalar types - String, Boolean, Int, Float, ID
+# Type definitions (schema)
+
+enum MutationType {
+    CREATED
+    UPDATED
+    DELETED
+}
+
+type Query {
+    levels(ids: String): [Level]
+    labels(ids: String): [Label]
+    sources(ids: String): [Source]
+    teachers(ids: String): [Teacher]
+    courses(ids: String): [Course]
+}
+
+type Mutation {
+    createLevel(name: String!): Level! 
+    deleteLevel(id: ID!): Level! 
+    updateLevel(id:ID!, name: String!): Level!
+
+    createLabel(name: String!): Label! 
+    deleteLabel(id: ID!): Label! 
+    updateLabel(id:ID!, name: String!): Label!
+
+    createSource(name: String!, url: String): Source! 
+    deleteSource(id: ID!): Source! 
+    updateSource(id:ID!, name: String!, url: String!): Source!
+
+    createTeacher(name: String!, workplace: String): Teacher! 
+    deleteTeacher(id: ID!): Teacher! 
+    updateTeacher(id:ID!, name: String!, workplace: String!): Teacher!
+
+    createCourse(data: CreateCourseInput!): Course! 
+    deleteCourse(id: ID!): Course! 
+    updateCourse(id:ID!, data: UpdateCourseInput!): Course!
+}
+
+input CreateCourseInput {
+    name: String!, 
+    alt_name: String, 
+    description: String
+    year: Int
+    length: Float
+    number_of_views: Int
+    rating: String
+    path: String
+    is_watched: Boolean
+}
+
+input UpdateCourseInput {
+    name: String, 
+    alt_name: String, 
+    description: String
+    year: Int
+    length: Float
+    number_of_views: Int
+    rating: String
+    path: String
+    is_watched: Boolean
+}
+
+type Subscription {
+    levels: LevelSubscriptionPayload!
+    labels: LabelSubscriptionPayload!
+    sources: SourceSubscriptionPayload!
+    teachers: TeacherSubscriptionPayload!
+    courses: CourceSubscriptionPayload!
+}
+
+type Level {
+    id: ID!
+    name: String!
+    courses: [Course]
+}
+
+type Label {
+    id: ID!
+    name: String!
+    courses: [Course]
+}
+
+type Source {
+    id: ID!
+    name: String!
+    url: String
+    courses: [Course]
+}
+
+type Teacher {
+    id: ID!
+    name: String!
+    workplace: String
+    courses: [Course]
+}
+
+type Course {
+    id: ID!
+    name: String!
+    alt_name: String
+    description: String
+    year: Int
+    length: Float
+    number_of_views: Int
+    rating: String
+    path: String
+    is_watched: Boolean
+    levels: [Level]
+    labels: [Label]
+    sources: [Source]
+    teachers: [Teacher]
+}
+
+type LevelSubscriptionPayload {
+    mutation: MutationType!
+    data: Level!
+}
+
+type LabelSubscriptionPayload {
+    mutation: MutationType!
+    data: Label!
+}
+
+type SourceSubscriptionPayload {
+    mutation: MutationType!
+    data: Source!
+}
+
+type TeacherSubscriptionPayload {
+    mutation: MutationType!
+    data: Teacher!
+}
+
+type CourceSubscriptionPayload {
+    mutation: MutationType!
+    data: Course!
+}
